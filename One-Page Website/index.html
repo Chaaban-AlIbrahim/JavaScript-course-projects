@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern One-Page Website with Lightbox</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        nav {
+            background: #111;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #00bcd4;
+        }
+
+        section {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        #home {
+            background: linear-gradient(to right, #00bcd4, #006f8e);
+            color: white;
+            padding: 120px 20px;
+            text-align: center;
+        }
+
+        /* --- Gallery Styles --- */
+        #gallery img {
+            width: 30%;
+            margin: 1%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        #gallery img:hover {
+            transform: scale(1.03);
+        }
+
+        /* --- Lightbox Modal Styles --- */
+        .lightbox-modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2000;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 5px;
+            animation: zoom 0.3s;
+        }
+
+        @keyframes zoom {
+            from {transform: scale(0.1)} 
+            to {transform: scale(1)}
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: #fff;
+            font-size: 50px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* --- Other Styles --- */
+        #video iframe {
+            width: 100%;
+            height: 400px;
+            border-radius: 10px;
+            border: none;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+        }
+
+        button {
+            background: #00bcd4;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0097a7;
+        }
+
+        footer {
+            background: #111;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#video">Video</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <section id="home">
+        <h1>Welcome to My Modern Website</h1>
+        <p>This is a clean and simple one-page layout built with HTML and CSS.</p>
+    </section>
+
+    <section id="gallery">
+        <h2>Image Gallery</h2>
+        <p>Click on an image to view it in the Lightbox.</p>
+
+        <img src="https://cdn.pixabay.com/photo/2025/12/28/13/04/giant-panda-10039235_1280.jpg" alt="Panda 1">
+        <img src="https://cdn.pixabay.com/photo/2025/12/28/13/04/giant-panda-10039235_1280.jpg" alt="Panda 2">
+        <img src="https://cdn.pixabay.com/photo/2025/12/28/13/04/giant-panda-10039235_1280.jpg" alt="Panda 3">
+    </section>
+
+    <div id="lightbox" class="lightbox-modal">
+        <span class="close-btn">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+    </div>
+
+    <section id="video">
+        <h2>Featured Video</h2>
+        <iframe src="https://www.youtube.com/embed/LjhCEhWiKXk" title="YouTube video player" allowfullscreen></iframe>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <form>
+            <label>Name:</label>
+            <input type="text" placeholder="Your Name">
+            <label>Email:</label>
+            <input type="email" placeholder="Your Email">
+            <label>Message:</label>
+            <textarea rows="5" placeholder="Your Message"></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>© 2026 Modern One-Page Website | Designed by You</p>
+    </footer>
+
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const galleryImages = document.querySelectorAll('#gallery img');
+        const closeBtn = document.querySelector('.close-btn');
+
+        // Loop through all images and add click event
+        galleryImages.forEach(image => {
+            image.addEventListener('click', () => {
+                lightbox.style.display = 'block';
+                lightboxImg.src = image.src; // Set the clicked image as the modal image
+            });
+        });
+
+        // Close when clicking the 'X'
+        closeBtn.onclick = () => {
+            lightbox.style.display = 'none';
+        };
+
+        // Close when clicking anywhere outside the image
+        lightbox.onclick = (e) => {
+            if (e.target !== lightboxImg) {
+                lightbox.style.display = 'none';
+            }
+        };
+    </script>
+
+</body>
+</html>
